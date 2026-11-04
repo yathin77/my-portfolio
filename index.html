@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- SEO: JavaScript below swaps the title and description on every page. These are the defaults. -->
+<title>Yathin | Inquisitive Vibe Coder</title>
+<meta name="description" content="Portfolio of Yathin Ajay Kumar Khotwani A, an inquisitive vibe coder who builds web projects with AI tools.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yathin | Inquisitive Vibe Coder">
+<meta property="og:description" content="Portfolio of Yathin Ajay Kumar Khotwani A, an inquisitive vibe coder who builds web projects with AI tools.">
+<!-- Add <meta property="og:image" content="https://your-site/preview.png"> once you have a preview image -->
+<meta name="theme-color" content="#0e0c1f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✦%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,800;1,900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* 1. DESIGN TOKENS: change colours and fonts here and the whole site follows */
+:root{--bg:#0e0c1f;--surface:#1b1838;--text:#f1edff;--muted:#b3aed6;--violet:#8a7bff;--coral:#ff7a93;--line:rgba(241,237,255,.14);
+--head:"Playfair Display",Georgia,serif;--body:"Space Grotesk",system-ui,sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
+
+/* 2. BASE */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:400 1.05rem/1.7 var(--body);overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+/* soft glow that follows the mouse (--mx and --my are set in JS) */
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(480px circle at var(--mx,70%) var(--my,15%),rgba(138,123,255,.22),transparent 65%)}
+main{flex:1;outline:none}
+h1,h2,h3{font-family:var(--head);font-style:italic;font-weight:900;line-height:1.05}
+h2{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:1rem}
+h3{font-size:1.5rem}
+a{color:inherit}
+p{max-width:62ch;color:var(--muted)}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.wrap{width:min(1100px,92%);margin-inline:auto}
+.page{padding:4rem 0}
+.skip{position:absolute;left:-999px}
+.skip:focus{left:1rem;top:1rem;z-index:200;background:var(--coral);color:var(--bg);padding:.5rem 1rem;border-radius:8px}
+
+/* 3. HEADER AND NAVIGATION */
+header{position:sticky;top:0;z-index:50;background:rgba(14,12,31,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font:italic 900 1.6rem var(--head);text-decoration:none}
+nav ul{display:flex;gap:.3rem;list-style:none}
+nav a{display:block;padding:.45rem .9rem;border-radius:99px;text-decoration:none;color:var(--muted);transition:color .25s,background .25s}
+nav a:hover{color:var(--text);background:var(--surface)}
+nav a[aria-current=page]{color:var(--bg);background:linear-gradient(120deg,var(--violet),var(--coral))}
+.menu{display:none;background:none;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:.5rem .9rem;font:inherit;cursor:pointer}
+@media(max-width:800px){
+ .menu{display:block}
+ nav ul{display:none;position:absolute;left:0;right:0;top:68px;flex-direction:column;background:var(--bg);padding:1rem 4%;border-bottom:1px solid var(--line)}
+ nav.open ul{display:flex}
+}
+
+/* 4. HERO: the one big moment. Each letter rises in turn */
+.hero{min-height:76vh;display:flex;flex-direction:column;justify-content:center}
+.big{font-size:clamp(4.5rem,19vw,13rem);letter-spacing:-.03em}
+.mask{display:block;overflow:hidden;padding:0 .15em .12em 0}
+.split span{display:inline-block;opacity:0;transform:translateY(90%) rotate(8deg);animation:rise .9s var(--ease) forwards;animation-delay:calc(var(--i)*70ms)}
+@keyframes rise{to{opacity:1;transform:none}}
+.sub{max-width:none;font:italic 800 clamp(1.5rem,4.5vw,2.8rem) var(--head);background:linear-gradient(120deg,var(--violet),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;margin:.4rem 0 1.4rem}
+
+/* 5. BUTTONS, TAGS, CARDS */
+.btn{display:inline-block;padding:.85rem 1.6rem;border-radius:99px;font:700 1rem var(--body);text-decoration:none;border:2px solid var(--violet);background:none;color:var(--text);cursor:pointer;transition:background .25s,border-color .25s,color .25s,transform .2s}
+.btn.fill{background:var(--violet);color:var(--bg)}
+.btn:hover{background:var(--coral);border-color:var(--coral);color:var(--bg)}
+.row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.6rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;margin-top:2rem}
+.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.6rem;text-decoration:none;transition:transform .3s var(--ease),border-color .3s}
+.card:hover{transform:translateY(-6px);border-color:var(--violet)}
+.card p{margin-top:.5rem}
+.tag{display:inline-block;font-size:.85rem;padding:.1rem .7rem;border:1px solid var(--line);border-radius:6px;margin:.9rem .4rem 0 0;color:var(--muted)}
+
+/* 6. MARQUEE (endless scrolling strip) AND COUNTERS */
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:1rem 0;margin:2.5rem 0}
+.track{display:flex;width:max-content;animation:slide 26s linear infinite}
+.track div{display:flex;gap:3rem;padding-right:3rem}
+.track span{font:italic 800 2rem var(--head);white-space:nowrap}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.stats{display:flex;gap:3.5rem;flex-wrap:wrap;color:var(--muted)}
+.stats b{display:block;font:italic 900 4rem/1 var(--head);color:var(--text)}
+
+/* 7. TIMELINE, FORM, BREADCRUMBS */
+.tl{list-style:none;border-left:2px solid var(--violet);margin:2rem 0 2rem .6rem;padding-left:1.8rem}
+.tl li{position:relative;margin-bottom:1.8rem}
+.tl li::before{content:"";position:absolute;left:calc(-1.8rem - 7px);top:.55rem;width:12px;height:12px;border-radius:50%;background:var(--coral)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+@media(max-width:800px){.two{grid-template-columns:1fr}}
+form{display:grid;gap:1rem}
+label{display:grid;gap:.3rem;font-weight:500}
+input,textarea{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;color:var(--text);font:inherit}
+textarea{min-height:140px;resize:vertical}
+.links{list-style:none;display:grid;gap:.8rem;margin-top:1rem}
+.links a{font-size:1.2rem}
+.crumbs{font-size:.95rem;color:var(--muted);margin-bottom:1.5rem}
+.crumbs a{color:var(--text)}
+
+/* 8. FOOTER, BACK-TO-TOP, PAGE TRANSITION, CURSOR */
+footer{border-top:1px solid var(--line);padding:2rem 0;margin-top:3rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer ul{display:flex;gap:1.2rem;list-style:none}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--coral)}
+#top{position:fixed;right:1.2rem;bottom:1.2rem;width:48px;height:48px;border-radius:50%;border:0;background:var(--violet);color:var(--bg);font-size:1.3rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s}
+#top.show{opacity:1;pointer-events:auto}
+.curtain{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,var(--violet),var(--coral));transform:translateY(100%);transition:transform .45s var(--ease);pointer-events:none}
+.curtain.on{transform:none}
+.cursor{display:none;position:fixed;top:0;left:0;width:30px;height:30px;margin:-15px 0 0 -15px;z-index:90;pointer-events:none}
+.cursor::before{content:"";position:absolute;inset:0;border:2px solid var(--coral);border-radius:50%;transition:transform .25s,background .25s}
+.cursor.big::before{transform:scale(1.8);background:rgba(255,122,147,.18)}
+.fx .cursor{display:block}
+/* scroll reveal: elements with class "rv" fade up when they enter the screen */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+/* respect people who turn animations off in their system settings */
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.split span,.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" id="skip">Skip to content</a>
+<div class="curtain" id="curtain"></div>
+<div class="cursor" id="cursor"></div>
+
+<!-- Shared header: the nav links are built from PAGES in the script below -->
+<header><div class="wrap">
+  <a class="logo" href="#home">Yathin</a>
+  <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav id="nav" aria-label="Main"><ul id="links"></ul></nav>
+</div></header>
+
+<!-- Each "page" is drawn into this element -->
+<main id="main" tabindex="-1"></main>
+
+<!-- Shared footer -->
+<footer><div class="wrap"><p id="copy"></p><ul id="social"></ul></div></footer>
+<button id="top" aria-label="Back to top">↑</button>
+
+<script>
+/* ============================================================
+   1. DATA: edit this section to change content. No page code needed.
+   ============================================================ */
+const SITE = {
+  name: "Yathin Ajay Kumar Khotwani A", short: "Yathin", tagline: "inquisitive vibe coder",
+  bio: "I build at the speed of thought. I am deeply interested in the art of vibe coding: using AI, intuition and flow state to skip boilerplate and ship prototypes fast. For me, hackathons are about focusing on the user experience and turning raw ideas into deployed reality before the momentum fades.",
+  email: "yathin7477@gmail.com",
+  github: "https://github.com/yathin77",
+  linkedin: "https://www.linkedin.com/in/yathin-ajay-634b87418/",
+  instagram: "https://www.instagram.com/yathin776611/",
+  resumeUrl: "" // Put the path of your real resume here (for example "resume.pdf"). While empty, a simple resume is generated from this data.
+};
+
+// Pages in nav order. "desc" becomes the page's SEO description.
+const PAGES = {
+  home:     { nav: "Home",     title: "Yathin | Inquisitive Vibe Coder", desc: "Portfolio of Yathin, an inquisitive vibe coder who builds web projects with AI tools." },
+  about:    { nav: "About",    title: "About Yathin | Vibe Coder from Tamil Nadu", desc: "Born in Tamil Nadu, Yathin explains what vibe coding means to him and where he is heading." },
+  skills:   { nav: "Skills",   title: "Skills | Yathin", desc: "Prompt engineering, vibe coding, HTML, Python and C." },
+  projects: { nav: "Projects", title: "Projects | Yathin", desc: "Projects built by Yathin with AI tools, starting with this portfolio website." },
+  toolkit:  { nav: "Toolkit",  title: "Toolkit | Yathin", desc: "The AI tools Yathin uses: Claude, ChatGPT, Gemini and Google AI Studio." },
+  contact:  { nav: "Contact",  title: "Contact Yathin", desc: "Email, GitHub, LinkedIn, Instagram and a contact form for Yathin." }
+};
+
+const SKILLS = [
+  { name: "Prompt engineering", note: "Writing clear prompts so AI tools give me useful research, code and content." },
+  { name: "Vibe coding",        note: "Describing what I want, steering the AI and staying in flow until it works." },
+  { name: "HTML",               note: "The structure behind every page I ship, written so I can understand it." },
+  { name: "Python",             note: "Practice with logic and automation ideas." },
+  { name: "C",                  note: "A language that teaches me how computers work under the hood." }
+];
+
+const TOOLS = [
+  { name: "Claude",           role: "Research and shaping the prompts for my builds." },
+  { name: "ChatGPT",          role: "Brainstorming ideas and drafting project content." },
+  { name: "Gemini",           role: "A second opinion on research and content." },
+  { name: "Google AI Studio", role: "My framework and hosting: where projects get built and go live." }
+];
+
+const PROJECTS = [
+  { id: "portfolio", title: "My portfolio website",
+    summary: "A multi-page, animated, dark portfolio that tells the story of my vibe coding journey.",
+    tags: ["HTML", "JavaScript", "Google AI Studio"],
+    story: ["I wanted one place to show my journey, so I built it myself.",
+            "I used Claude, ChatGPT and Gemini to research the structure and write the prompts, then built and hosted it in Google AI Studio.",
+            "It is a multi-page site in HTML with an animated, dark design that works on phones and laptops."] }
+];
+
+// Timeline entries for the About page (edit freely)
+const JOURNEY = [
+  { title: "Born in Tamil Nadu", text: "Where my story starts." },
+  { title: "Discovered vibe coding", text: "I learned that clear prompts and good instincts can turn an idea into a working page." },
+  { title: "Built my own portfolio", text: "This website is my first project, made with AI tools and plenty of curiosity." },
+  { title: "Aiming to be the best web developer", text: "Next: more projects, more hackathons and cybersecurity." }
+];
+
+/* ============================================================
+   2. HELPERS
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Wrap each letter in a span so CSS can animate them one by one
+const chars = t => [...t].map((c, i) => `<span style="--i:${i}">${c}</span>`).join("");
+const ext = (u, t) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+
+/* ============================================================
+   3. PAGE TEMPLATES: each one returns the HTML for a page
+   ============================================================ */
+const VIEWS = {
+  home: () => `
+    <section class="wrap hero">
+      <h1 class="big" aria-label="${SITE.short}"><span class="mask"><span class="split" aria-hidden="true">${chars(SITE.short)}</span></span></h1>
+      <p class="sub rv">${SITE.tagline}</p>
+      <p class="rv">${SITE.bio}</p>
+      <div class="row rv"><a class="btn fill" href="#about">Meet me</a><a class="btn" href="#projects">See my projects</a></div>
+    </section>
+    <div class="marquee" aria-hidden="true"><div class="track">${[1, 2].map(() => `<div>${SKILLS.map(s => `<span>${s.name}</span>`).join("")}</div>`).join("")}</div></div>
+    <section class="wrap rv"><div class="stats">
+      <div><b data-n="${SKILLS.length}">0</b>skills</div>
+      <div><b data-n="${TOOLS.length}">0</b>AI tools</div>
+      <div><b data-n="${PROJECTS.length}">0</b>project and counting</div>
+    </div></section>`,
+
+  about: () => `
+    <section class="wrap page">
+      <h1 class="big" style="font-size:clamp(3rem,10vw,6rem)">About me</h1>
+      <p style="margin-top:1rem">I was born in Tamil Nadu, and I am ${SITE.name}. ${SITE.tagline[0].toUpperCase() + SITE.tagline.slice(1)} is the best short way to describe me.</p>
+      <h2 class="rv" style="margin-top:3rem">What vibe coding means to me</h2>
+      <p class="rv">It means building with AI as my partner. I describe the idea, steer the tools with clear prompts and stay in flow. I skip the boilerplate and spend my energy on how the site feels to use.</p>
+      <h2 class="rv" style="margin-top:3rem">My journey</h2>
+      <ul class="tl">${JOURNEY.map(j => `<li class="rv"><h3>${j.title}</h3><p>${j.text}</p></li>`).join("")}</ul>
+      <p class="rv">I want to become the best web developer, and a cybersecurity engineer too.</p>
+      <div class="row"><a class="btn fill" id="resume" href="${SITE.resumeUrl || "#about"}" ${SITE.resumeUrl ? "download" : ""}>Download resume</a></div>
+    </section>`,
+
+  skills: () => `
+    <section class="wrap page"><h1 class="big" style="font-size:clamp(3rem,10vw,6rem)">Skills</h1>
+      <div class="grid">${SKILLS.map(s => `<article class="card rv"><h3>${s.name}</h3><p>${s.note}</p></article>`).join("")}</div>
+    </section>`,
+
+  projects: () => `
+    <section class="wrap page"><h1 class="big" style="font-size:clamp(3rem,10vw,6rem)">Projects</h1>
+      <div class="grid">${PROJECTS.map(p => `<a class="card rv" href="#project-${p.id}"><h3>${p.title}</h3><p>${p.summary}</p>${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</a>`).join("")}</div>
+    </section>`,
+
+  toolkit: () => `
+    <section class="wrap page"><h1 class="big" style="font-size:clamp(3rem,10vw,6rem)">Toolkit</h1>
+      <p style="margin-top:1rem">I use AI tools to research clearly and to write the prompts and content for each project. Google AI Studio is where I build and host.</p>
+      <div class="grid">${TOOLS.map(t => `<article class="card rv"><h3>${t.name}</h3><p>${t.role}</p></article>`).join("")}</div>
+    </section>`,
+
+  contact: () => `
+    <section class="wrap page"><h1 class="big" style="font-size:clamp(3rem,10vw,6rem)">Contact</h1>
+      <div class="two" style="margin-top:2rem">
+        <div class="rv"><p>Have an idea or a hackathon team to fill? Write to me.</p>
+          <ul class="links">
+            <li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
+            <li>${ext(SITE.github, "GitHub")}</li><li>${ext(SITE.linkedin, "LinkedIn")}</li><li>${ext(SITE.instagram, "Instagram")}</li>
+          </ul></div>
+        <!-- No server here, so the form opens the visitor's email app. For real submissions, connect a service such as Formspree. -->
+        <form id="form" class="rv">
+          <label>Your name<input name="name" required autocomplete="name"></label>
+          <label>Your email<input name="email" type="email" required autocomplete="email"></label>
+          <label>Message<textarea name="message" required></textarea></label>
+          <button class="btn fill" type="submit">Send message</button>
+          <p id="note" role="status"></p>
+        </form>
+      </div>
+    </section>`
+};
+
+// Detail page for one project, with breadcrumbs
+const projectView = p => `
+  <section class="wrap page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a> / <a href="#projects">Projects</a> / ${p.title}</nav>
+    <h1 class="big" style="font-size:clamp(2.6rem,8vw,5rem)">${p.title}</h1>
+    ${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+    <div style="margin-top:1.5rem;display:grid;gap:1rem">${p.story.map(s => `<p class="rv">${s}</p>`).join("")}</div>
+    <div class="row"><a class="btn" href="#projects">Back to projects</a></div>
+  </section>`;
+
+/* ============================================================
+   4. ROUTER: the part of the address after # picks the page
+   ============================================================ */
+function seo(m) {
+  document.title = m.title;
+  $('meta[name="description"]').content = m.desc;
+  $('meta[property="og:title"]').content = m.title;
+  $('meta[property="og:description"]').content = m.desc;
+}
+
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add("in");
+  e.target.querySelectorAll("[data-n]").forEach(count);
+  io.unobserve(e.target);
+}), { threshold: .15 });
+
+// Counts a number up from 0 (used by the stats on the home page)
+function count(el) {
+  const n = +el.dataset.n; let start = null;
+  requestAnimationFrame(function f(t) {
+    start = start || t;
+    const p = Math.min((t - start) / 900, 1);
+    el.textContent = Math.round(n * p);
+    if (p < 1) requestAnimationFrame(f);
+  });
+}
+
+function render() {
+  const h = location.hash.slice(1) || "home";
+  const proj = PROJECTS.find(p => "project-" + p.id === h);
+  const key = proj ? "projects" : (PAGES[h] ? h : "home");
+  $("#main").innerHTML = proj ? projectView(proj) : VIEWS[key]();
+  seo(proj ? { title: proj.title + " | Yathin", desc: proj.summary } : PAGES[key]);
+  $$("#links a").forEach(a => a.dataset.k === key ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+  $("#nav").classList.remove("open"); $("#menu").setAttribute("aria-expanded", "false");
+  window.scrollTo({ top: 0, behavior: "instant" });
+  $("#main").focus({ preventScroll: true });
+  $$(".rv").forEach(el => reduce ? el.classList.add("in") : io.observe(el));
+  $$("[data-n]").forEach(el => { if (reduce) count(el); });
+  bindPage();
+}
+
+// Page change: slide the colour curtain up, swap the page, slide it away
+let first = true;
+function go() {
+  if (first || reduce) { first = false; render(); return; }
+  $("#curtain").classList.add("on");
+  setTimeout(() => { render(); $("#curtain").classList.remove("on"); }, 450);
+}
+
+// Wires up things that exist only on some pages (buttons, form, resume)
+function bindPage() {
+  $$(".btn").forEach(b => {
+    b.onmousemove = e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .2}px,${(e.clientY - r.top - r.height / 2) * .3}px)`; };
+    b.onmouseleave = () => b.style.transform = "";
+  });
+  const f = $("#form");
+  if (f) f.onsubmit = e => {
+    e.preventDefault();
+    const d = new FormData(f);
+    location.href = `mailto:${SITE.email}?subject=${encodeURIComponent("Hello from " + d.get("name"))}&body=${encodeURIComponent(d.get("message") + "\n\nReply to: " + d.get("email"))}`;
+    $("#note").textContent = "Opening your email app to send the message.";
+  };
+  const r = $("#resume");
+  if (r && !SITE.resumeUrl) r.onclick = e => {
+    e.preventDefault();
+    const text = `${SITE.name}\n${SITE.tagline}\n\n${SITE.bio}\n\nSkills: ${SKILLS.map(s => s.name).join(", ")}\n\nProjects:\n${PROJECTS.map(p => "- " + p.title + ": " + p.summary).join("\n")}\n\nEmail: ${SITE.email}\nGitHub: ${SITE.github}\nLinkedIn: ${SITE.linkedin}\n`;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
+    a.download = "Yathin-Resume.txt"; a.click();
+  };
+}
+
+/* ============================================================
+   5. SHARED PARTS AND EFFECTS
+   ============================================================ */
+$("#links").innerHTML = Object.keys(PAGES).map(k => `<li><a href="#${k}" data-k="${k}">${PAGES[k].nav}</a></li>`).join("");
+$("#social").innerHTML = [["GitHub", SITE.github], ["LinkedIn", SITE.linkedin], ["Instagram", SITE.instagram]].map(([t, u]) => `<li>${ext(u, t)}</li>`).join("");
+$("#copy").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
+
+$("#menu").onclick = () => { const o = $("#nav").classList.toggle("open"); $("#menu").setAttribute("aria-expanded", o); };
+$("#skip").onclick = e => { e.preventDefault(); $("#main").focus(); };
+$("#top").onclick = () => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+addEventListener("scroll", () => $("#top").classList.toggle("show", scrollY > 400), { passive: true });
+addEventListener("hashchange", go);
+
+// Custom cursor and mouse glow: only on devices with a real mouse
+if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduce) {
+  document.body.classList.add("fx");
+  let x = 0, y = 0, cx = 0, cy = 0;
+  addEventListener("mousemove", e => { x = e.clientX; y = e.clientY; document.body.style.setProperty("--mx", x + "px"); document.body.style.setProperty("--my", y + "px"); });
+  (function loop() { cx += (x - cx) * .15; cy += (y - cy) * .15; $("#cursor").style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
+  document.addEventListener("mouseover", e => $("#cursor").classList.toggle("big", !!e.target.closest("a,button,.card")));
+}
+
+go(); // draw the first page
+</script>
+</body>
+</html>
